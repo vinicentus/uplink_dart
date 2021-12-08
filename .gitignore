@@ -73,3 +73,8 @@ build/
 !**/ios/**/default.mode2v3
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
+
+# Binaries for uplink-c
+libuplinkc.so
+# Header files for uplink-c
+libuplinkc.h

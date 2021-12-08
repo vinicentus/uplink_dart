@@ -9,4 +9,5 @@ General steps:
 2. clone uplink-c to a directory of your choice
 3. `run go build -o libuplinkc.so -buildmode=c-shared`
 4. for building on windows, see https://github.com/storj-thirdparty/uplink-python#initial-set-up-important
-5. Copy the resulting binaries to this directory (inside storj.dart repository)
+5. Copy the resulting binary (libuplinkc.so) to this directory (inside storj.dart repository)
+6. copy over libuplinkc.h, uplink_definitions.h, uplink_compat.h, if you want to generate bindings based on them.

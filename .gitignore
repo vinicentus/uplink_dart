@@ -78,3 +78,5 @@ build/
 libuplinkc.so
 # Header files for uplink-c
 libuplinkc.h
+uplink_definitions.h
+uplink_compat.h

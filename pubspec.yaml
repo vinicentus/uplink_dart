@@ -4,7 +4,8 @@ version: 0.0.1
 homepage:
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  # The generated file requires 'nonfunction-type-aliases' language feature, available from 2.14.0 onwards...
+  sdk: ">=2.14.0 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -53,3 +54,15 @@ flutter:
   #
   # For details regarding fonts in packages, see
   # https://flutter.dev/custom-fonts/#from-packages
+
+ffigen:
+  output: 'generated_bindings.dart'
+  headers:
+    entry-points:
+      - 'libuplinkc.h'
+      - 'uplink_definitions.h'
+      - 'uplink_compat.h'
+    include-directives:
+      - '**libuplinkc.h'
+      - '**uplink_definitions.h'
+      - '**uplink_compat.h'

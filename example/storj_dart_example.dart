@@ -8,7 +8,7 @@ void main() {
   var access = uplink.parseAccess('access');
   var project = uplink.openProject(access);
   var download = uplink.downloadObject(project, 'bucketName', 'path');
-  var size = uplink.getSize(uplink.downloadInfo(download));
+  var size = uplink.downloadInfo(download).system.content_length;
   print(size);
   var file = uplink.downloadRead(download, size);
 

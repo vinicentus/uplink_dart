@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:storj_dart/generated/generated_bindings.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'package:storj_dart/src/classes/object.dart';
+import 'package:storj_dart/src/helpers.dart';
 
 // TODO: Put public facing types in this file.
 
@@ -10,7 +12,7 @@ class Uplink {
   final _lib = NativeLibrary(DynamicLibrary.open('libuplinkc.so'));
 
   Pointer<UplinkAccess> parseAccess(String access) {
-    var intPointer = _stringToInt8Pointer(access);
+    var intPointer = access.stringToInt8Pointer();
     UplinkAccessResult accessResult = _lib.uplink_parse_access(intPointer);
 
     calloc.free(intPointer);
@@ -34,8 +36,8 @@ class Uplink {
     // downloadOptions ??= calloc.call<UplinkDownloadOptions>();
     downloadOptions ??= nullptr;
 
-    var bucketNameInt = _stringToInt8Pointer(bucketName);
-    var pahtInt = _stringToInt8Pointer(path);
+    var bucketNameInt = bucketName.stringToInt8Pointer();
+    var pahtInt = path.stringToInt8Pointer();
     var result = _lib.uplink_download_object(
         project, bucketNameInt, pahtInt, downloadOptions);
 
@@ -47,18 +49,12 @@ class Uplink {
     return result.download;
   }
 
-  Pointer<UplinkObject> downloadInfo(Pointer<UplinkDownload> download) {
+  DartUplinkObject downloadInfo(Pointer<UplinkDownload> download) {
     var result = _lib.uplink_download_info(download);
 
     _throwIfError(result.error);
 
-    return result.object;
-  }
-
-  /// TODO: remove this method! Instead, create a Storj UplinkObject class with getters
-  @deprecated
-  int getSize(Pointer<UplinkObject> object) {
-    return object.ref.system.content_length;
+    return DartUplinkObject(result.object);
   }
 
   Uint8List downloadRead(Pointer<UplinkDownload> download, int allowedLength) {
@@ -99,19 +95,4 @@ class Uplink {
       throw Exception(actualError.code);
     }
   }
-
-  Pointer<Int8> _stringToInt8Pointer(String string) {
-    var charPointer = string.toNativeUtf8();
-    return charPointer.cast<Int8>();
-  }
-
-  String _int8PointerToString(Pointer<Int8> pointer) {
-    var charPointer = pointer.cast<Utf8>();
-    // TODO: check that the length of the returned string is correct
-    return charPointer.toDartString();
-  }
-}
-
-extension NullPtrCheck on Pointer {
-  bool isNullPtr() => address == nullptr.address;
 }

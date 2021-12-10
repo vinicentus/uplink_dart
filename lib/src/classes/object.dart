@@ -10,7 +10,6 @@ import 'package:storj_dart/src/helpers.dart';
 // TODO: rename
 class DartUplinkObject {
   final Pointer<UplinkObject> _nativeObject;
-
   // TODO: don't construct from Struct
   DartUplinkObject(this._nativeObject);
 

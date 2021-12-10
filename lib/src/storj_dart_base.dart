@@ -31,7 +31,8 @@ class Uplink {
       [Pointer<UplinkDownloadOptions>? downloadOptions]) {
     // If no downloadOptions are passed, we have to allocate
     // This is the same as calloc.allocate(sizeOf<UplinkDownloadOptions>());
-    downloadOptions ??= calloc.call<UplinkDownloadOptions>();
+    // downloadOptions ??= calloc.call<UplinkDownloadOptions>();
+    downloadOptions ??= nullptr;
 
     var bucketNameInt = _stringToInt8Pointer(bucketName);
     var pahtInt = _stringToInt8Pointer(path);
@@ -67,7 +68,6 @@ class Uplink {
     return returnList;
   }
 
-  // TODO: this function somehow makes the whole rogram silently crash
   void _throwIfError(Pointer<UplinkError> error) {
     if (error.isNullPtr()) {
       // This is a nullptr
@@ -99,7 +99,5 @@ class Uplink {
 }
 
 extension NullPtrCheck on Pointer {
-  bool isNullPtr() {
-    return address == nullptr.address;
-  }
+  bool isNullPtr() => address == nullptr.address;
 }

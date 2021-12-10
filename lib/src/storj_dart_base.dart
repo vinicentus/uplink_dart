@@ -15,14 +15,14 @@ class Uplink {
 
     calloc.free(intPointer);
 
-    _throwIfError(accessResult.error.ref);
+    _throwIfError(accessResult.error);
     return accessResult.access;
   }
 
   Pointer<UplinkProject> openProject(Pointer<UplinkAccess> access) {
     var result = _lib.uplink_open_project(access);
 
-    _throwIfError(result.error.ref);
+    _throwIfError(result.error);
     return result.project;
   }
 
@@ -42,7 +42,7 @@ class Uplink {
     calloc.free(pahtInt);
     calloc.free(downloadOptions);
 
-    _throwIfError(result.error.ref);
+    _throwIfError(result.error);
     return result.download;
   }
 
@@ -57,7 +57,7 @@ class Uplink {
     // For example, if the allowed length to read is shorter than the data available.
     // Some data might be read, but never returned, because this throws instead.
     // The original implementation returns both the partial data and the error in a struct.
-    _throwIfError(result.error.ref);
+    _throwIfError(result.error);
 
     var returnList = Uint8List.fromList(
         downloadedData.cast<Int8>().asTypedList(allowedLength));
@@ -68,11 +68,21 @@ class Uplink {
   }
 
   // TODO: this function somehow makes the whole rogram silently crash
-  void _throwIfError(UplinkError error) {
-    print(error.code);
-    if (error.code != 0) {
-      var errorMessage = error.message.cast<Utf8>().toDartString();
-      throw Exception([error.code, errorMessage]);
+  void _throwIfError(Pointer<UplinkError> error) {
+    if (error.isNullPtr()) {
+      // This is a nullptr
+      print(
+          'Nullpointer encounted, we shouldn\'t try to do anything with the value of this pointer...');
+      return;
+    }
+
+    var actualError = error.ref;
+
+    if (!actualError.message.isNullPtr()) {
+      var errorMessage = actualError.message.cast<Utf8>().toDartString();
+      throw Exception([actualError.code, errorMessage]);
+    } else {
+      throw Exception(actualError.code);
     }
   }
 
@@ -85,5 +95,11 @@ class Uplink {
     var charPointer = pointer.cast<Utf8>();
     // TODO: check that the length of the returned string is correct
     return charPointer.toDartString();
+  }
+}
+
+extension NullPtrCheck on Pointer {
+  bool isNullPtr() {
+    return address == nullptr.address;
   }
 }

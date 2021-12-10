@@ -47,6 +47,20 @@ class Uplink {
     return result.download;
   }
 
+  Pointer<UplinkObject> downloadInfo(Pointer<UplinkDownload> download) {
+    var result = _lib.uplink_download_info(download);
+
+    _throwIfError(result.error);
+
+    return result.object;
+  }
+
+  /// TODO: remove this method! Instead, create a Storj UplinkObject class with getters
+  @deprecated
+  int getSize(Pointer<UplinkObject> object) {
+    return object.ref.system.content_length;
+  }
+
   Uint8List downloadRead(Pointer<UplinkDownload> download, int allowedLength) {
     // Allocate a limited length pointer for the returned data
     var downloadedData = calloc.allocate<Void>(allowedLength);

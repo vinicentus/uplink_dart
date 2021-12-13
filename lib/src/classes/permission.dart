@@ -23,6 +23,27 @@ class DartUplinkPermission extends StructWrapper<bindings.UplinkPermission> {
       ? null
       : DateTime.fromMillisecondsSinceEpoch(_native.ref.not_after * 1000);
 
+  DartUplinkPermission({
+    bool allowDownload = false,
+    bool allowUpload = false,
+    bool allowList = false,
+    bool allowDelete = false,
+    DateTime? notBefore,
+    DateTime? notAfter,
+  }) {
+    super._native = calloc.call<bindings.UplinkPermission>();
+    _native.ref.allow_download = allowDownload.convertToInt();
+    _native.ref.allow_upload = allowUpload.convertToInt();
+    _native.ref.allow_list = allowList.convertToInt();
+    _native.ref.allow_delete = allowDelete.convertToInt();
+    if (notBefore != null) {
+      _native.ref.not_before = notBefore.millisecondsSinceEpoch ~/ 1000;
+    }
+    if (notAfter != null) {
+      _native.ref.not_after = notAfter.millisecondsSinceEpoch ~/ 1000;
+    }
+  }
+
   DartUplinkPermission.fullPermission() {
     super._native = calloc.call<bindings.UplinkPermission>();
     _native.ref.allow_download = true.convertToInt();

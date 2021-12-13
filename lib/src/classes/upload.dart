@@ -1,11 +1,9 @@
 part of classes;
 
-class DartUplinkUpload {
-  final bindings.NativeLibrary _nativeLib;
-  late final Pointer<bindings.UplinkUpload> _nativeUpload;
-
-  DartUplinkUpload._fromNative(this._nativeUpload)
-      : _nativeLib = _nativeLibrary;
+class DartUplinkUpload extends StructWrapper<bindings.UplinkUpload> {
+  @override
+  DartUplinkUpload._fromNative(Pointer<bindings.UplinkUpload> _native)
+      : super._fromNative(_native);
 
   // TODO: add methods
 }

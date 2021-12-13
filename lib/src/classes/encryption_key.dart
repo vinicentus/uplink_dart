@@ -1,14 +1,14 @@
 part of classes;
 
-class DartUplinkEncryptionKey {
-  final bindings.NativeLibrary _nativeLib;
-  late final Pointer<bindings.UplinkEncryptionKey> _nativeEncryptionKey;
+class DartUplinkEncryptionKey
+    extends StructWrapper<bindings.UplinkEncryptionKey> {
+  @override
+  DartUplinkEncryptionKey._fromNative(
+      Pointer<bindings.UplinkEncryptionKey> _native)
+      : super._fromNative(_native);
 
-  DartUplinkEncryptionKey._fromNative(this._nativeEncryptionKey)
-      : _nativeLib = _nativeLibrary;
-
-  DartUplinkEncryptionKey.deriveEncryptionKey(String passphrase, Uint8List salt)
-      : _nativeLib = _nativeLibrary {
+  DartUplinkEncryptionKey.deriveEncryptionKey(
+      String passphrase, Uint8List salt) {
     throw UnimplementedError();
   }
 }

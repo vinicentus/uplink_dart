@@ -1,19 +1,18 @@
 part of classes;
 
-class DartUplinkDownload {
-  final bindings.NativeLibrary _nativeLib;
-  late final Pointer<bindings.UplinkDownload> _nativeDownload;
-
-  DartUplinkDownload._fromNative(this._nativeDownload)
-      : _nativeLib = _nativeLibrary;
+class DartUplinkDownload extends StructWrapper<bindings.UplinkDownload>
+    with NativeLib {
+  @override
+  DartUplinkDownload._fromNative(Pointer<bindings.UplinkDownload> _native)
+      : super._fromNative(_native);
 
   void close() {
-    var error = _nativeLib.uplink_close_download(_nativeDownload);
+    var error = _nativeLibrary.uplink_close_download(_native);
     throwIfError(error);
   }
 
   DartUplinkObject info() {
-    var result = _nativeLib.uplink_download_info(_nativeDownload);
+    var result = _nativeLibrary.uplink_download_info(_native);
 
     throwIfError(result.error);
     return DartUplinkObject(result.object);
@@ -27,8 +26,8 @@ class DartUplinkDownload {
     // Allocate a limited length pointer for the returned data
     var downloadedData = calloc.allocate<Void>(length);
 
-    var result = _nativeLib.uplink_download_read(
-        _nativeDownload, downloadedData, length);
+    var result =
+        _nativeLibrary.uplink_download_read(_native, downloadedData, length);
 
     // TODO: this now throws even if the read was a partial success.
     // For example, if the allowed length to read is shorter than the data available.

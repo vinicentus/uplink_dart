@@ -1,22 +1,16 @@
 part of classes;
 
-class DartUplinkProject {
-  // TODO: Does it makse  sense to pass this in the constructor?
-  final bindings.NativeLibrary _nativeLib;
-  // This is late because we need to call a c function to get a reference in the constructor
-  // Also notice that this is a pointer and as such is backed by a native C variable
-  // TODO: make sure that all the pointers inside these kinds of classes are freed when not needed!
-  late final Pointer<bindings.UplinkProject> _nativeProject;
+class DartUplinkProject extends StructWrapper<bindings.UplinkProject>
+    with NativeLib {
+  @override
+  DartUplinkProject._fromNative(Pointer<bindings.UplinkProject> _native)
+      : super._fromNative(_native);
 
-  DartUplinkProject._fromNative(this._nativeProject)
-      : _nativeLib = _nativeLibrary;
-
-  DartUplinkProject.openProject(DartUplinkAccess access)
-      : _nativeLib = _nativeLibrary {
-    var result = _nativeLib.uplink_open_project(access._nativeAccess);
+  DartUplinkProject.openProject(DartUplinkAccess access) {
+    var result = _nativeLibrary.uplink_open_project(access._native);
 
     throwIfError(result.error);
-    _nativeProject = result.project;
+    _native = result.project;
   }
 
   abortUpload() {
@@ -28,7 +22,7 @@ class DartUplinkProject {
   }
 
   close() {
-    var error = _nativeLib.uplink_close_project(_nativeProject);
+    var error = _nativeLibrary.uplink_close_project(_native);
     throwIfError(error);
   }
 
@@ -62,8 +56,8 @@ class DartUplinkProject {
 
     var bucketNameInt = bucketName.stringToInt8Pointer();
     var pahtInt = path.stringToInt8Pointer();
-    var result = _nativeLib.uplink_download_object(
-        _nativeProject, bucketNameInt, pahtInt, downloadOptions);
+    var result = _nativeLibrary.uplink_download_object(
+        _native, bucketNameInt, pahtInt, downloadOptions);
 
     calloc.free(bucketNameInt);
     calloc.free(pahtInt);

@@ -15,7 +15,7 @@ class DartUplinkDownload extends StructWrapper<bindings.UplinkDownload>
     var result = _nativeLibrary.uplink_download_info(_native);
 
     throwIfError(result.error);
-    return DartUplinkObject(result.object);
+    return DartUplinkObject._fromNative(result.object);
   }
 
   /// The original go implementation of this returns the number of bytes read as well as the data.

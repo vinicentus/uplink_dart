@@ -17,8 +17,7 @@ class DartUplinkObject {
   DartUplinkObject(this._nativeObject);
 
   String get key => _nativeObject.ref.key.int8PointerToString();
-  // This essentially converts an Uint8 with value 1 or 0 to a boolean
-  bool get isPrefix => _nativeObject.ref.is_prefix == 1;
+  bool get isPrefix => _nativeObject.ref.is_prefix.convertToBool();
   UplinkSystemMetadata get system => _nativeObject.ref.system;
   UplinkCustomMetadata get custom => _nativeObject.ref.custom;
 }

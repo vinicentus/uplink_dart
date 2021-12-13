@@ -29,10 +29,28 @@ class DartUplinkAccess extends StructWrapper<bindings.UplinkAccess>
   }
 
   String serialize() {
-    throw UnimplementedError();
+    var result = _nativeLibrary.uplink_access_serialize(_native);
+
+    throwIfError(result.error);
+    return result.string.int8PointerToString();
   }
 
-  share() {
-    throw UnimplementedError();
+  // TODO: decide how to handle duplicate sharePrefixes (see if it is handled in C, and maybe convert to Set or check for duplicates)
+  DartUplinkAccess share(DartUplinkPermission permission,
+      List<DartUplinkUplinkSharePrefix> sharePrefixes) {
+    var sharePrefixesPointer =
+        malloc.call<bindings.UplinkSharePrefix>(sharePrefixes.length);
+    // TODO: This probably will not work
+    for (int i = 0; i < sharePrefixes.length; i++) {
+      var actualPointer = sharePrefixesPointer.elementAt(i);
+      actualPointer.ref.bucket = sharePrefixes[i]._native.ref.bucket;
+      actualPointer.ref.prefix = sharePrefixes[i]._native.ref.prefix;
+    }
+
+    var result = _nativeLibrary.uplink_access_share(_native,
+        permission._native.ref, sharePrefixesPointer, sharePrefixes.length);
+
+    throwIfError(result.error);
+    return DartUplinkAccess._fromNative(result.access);
   }
 }

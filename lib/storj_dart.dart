@@ -4,6 +4,6 @@
 /// More dartdocs go here.
 library storj_dart;
 
-export 'src/classes/lib.dart';
+export 'src/classes_lib.dart';
 
 // TODO: Export any libraries intended for clients of this package.

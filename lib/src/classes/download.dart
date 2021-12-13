@@ -7,8 +7,9 @@ class DartUplinkDownload {
   DartUplinkDownload._fromNative(this._nativeDownload)
       : _nativeLib = _nativeLibrary;
 
-  close() {
-    throw UnimplementedError();
+  void close() {
+    var error = _nativeLib.uplink_close_download(_nativeDownload);
+    throwIfError(error);
   }
 
   DartUplinkObject info() {

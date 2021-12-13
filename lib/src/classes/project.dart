@@ -27,9 +27,9 @@ class DartUplinkProject {
     throw UnimplementedError();
   }
 
-  // TODO
   close() {
-    throw UnimplementedError();
+    var error = _nativeLib.uplink_close_project(_nativeProject);
+    throwIfError(error);
   }
 
   commitUpload() {

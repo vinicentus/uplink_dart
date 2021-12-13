@@ -11,5 +11,8 @@ void main() {
   var file = download.read(size);
   print(file.length);
 
+  download.close();
+  project.close();
+
   File('downloaded.txt').writeAsBytes(file);
 }

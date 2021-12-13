@@ -14,6 +14,7 @@ part 'download.dart';
 part 'encryption_key.dart';
 part 'upload.dart';
 part 'part_upload.dart';
+part 'permission.dart';
 
 // TODO: maybe move to custom singleton or use  service lcoator such as GetIt?
 var _nativeLibrary =

@@ -38,9 +38,7 @@ extension BoolHelpers on bool {
 
 void throwIfError(Pointer<UplinkError> error) {
   if (error.isNullPtr()) {
-    // This is a nullptr
-    print(
-        'Nullpointer encounted, we shouldn\'t try to do anything with the value of this pointer...');
+    // This is a nullptr, meaning there wasn't any error
     return;
   }
 

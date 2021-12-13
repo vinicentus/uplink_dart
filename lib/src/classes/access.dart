@@ -1,9 +1,9 @@
 part of classes;
 
 class DartUplinkAccess {
-  final NativeLibrary _nativeLib;
+  final bindings.NativeLibrary _nativeLib;
   // This is late because we need to call a c function to get a reference in the constructor
-  late final Pointer<UplinkAccess> _nativeAccess;
+  late final Pointer<bindings.UplinkAccess> _nativeAccess;
 
   DartUplinkAccess._fromNative(this._nativeAccess)
       : _nativeLib = _nativeLibrary;

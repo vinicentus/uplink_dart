@@ -2,11 +2,11 @@ part of classes;
 
 class DartUplinkProject {
   // TODO: Does it makse  sense to pass this in the constructor?
-  final NativeLibrary _nativeLib;
+  final bindings.NativeLibrary _nativeLib;
   // This is late because we need to call a c function to get a reference in the constructor
   // Also notice that this is a pointer and as such is backed by a native C variable
   // TODO: make sure that all the pointers inside these kinds of classes are freed when not needed!
-  late final Pointer<UplinkProject> _nativeProject;
+  late final Pointer<bindings.UplinkProject> _nativeProject;
 
   DartUplinkProject._fromNative(this._nativeProject)
       : _nativeLib = _nativeLibrary;
@@ -52,9 +52,9 @@ class DartUplinkProject {
     throw UnimplementedError();
   }
 
-  // TODO: change return type
+  // TODO: don't depend on type from bindings (bindings.UplinkDownloadOptions)
   DartUplinkDownload downloadObject(String bucketName, String path,
-      [Pointer<UplinkDownloadOptions>? downloadOptions]) {
+      [Pointer<bindings.UplinkDownloadOptions>? downloadOptions]) {
     // If no downloadOptions are passed, we have to allocate
     // This is the same as calloc.allocate(sizeOf<UplinkDownloadOptions>());
     // downloadOptions ??= calloc.call<UplinkDownloadOptions>();

@@ -1,8 +1,8 @@
 part of classes;
 
 class DartUplinkDownload {
-  final NativeLibrary _nativeLib;
-  late final Pointer<UplinkDownload> _nativeDownload;
+  final bindings.NativeLibrary _nativeLib;
+  late final Pointer<bindings.UplinkDownload> _nativeDownload;
 
   DartUplinkDownload._fromNative(this._nativeDownload)
       : _nativeLib = _nativeLibrary;

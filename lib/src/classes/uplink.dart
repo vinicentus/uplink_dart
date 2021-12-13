@@ -1,34 +1,13 @@
-import 'dart:typed_data';
+part of classes;
 
-import 'package:storj_dart/generated/generated_bindings.dart';
-import 'dart:ffi';
-import 'package:ffi/ffi.dart';
-import 'package:storj_dart/src/classes/object.dart';
-import 'package:storj_dart/src/classes/project.dart';
-import 'package:storj_dart/src/helpers.dart';
-
-// TODO: Put public facing types in this file.
-
+/// This class exist only to instanciate objects of the other classes.
+/// It also serves to save the reference of the [NativeLibrary].
+/// The plan is to convert all the methods of this class into constructors
+/// for the types that they currently return.
+/// GetIt or similar can be used for keeping a reference th the [NativeLibrary]
+/// when we get that far.
 class Uplink {
-  final _lib = NativeLibrary(DynamicLibrary.open('libuplinkc.so'));
-
-  // TODO: change return type?
-  Pointer<UplinkAccess> parseAccess(String access) {
-    var intPointer = access.stringToInt8Pointer();
-    UplinkAccessResult accessResult = _lib.uplink_parse_access(intPointer);
-
-    calloc.free(intPointer);
-
-    throwIfError(accessResult.error);
-    return accessResult.access;
-  }
-
-  DartUplinkProject openProject(Pointer<UplinkAccess> access) {
-    var result = _lib.uplink_open_project(access);
-
-    throwIfError(result.error);
-    return DartUplinkProject(result.project, _lib);
-  }
+  final _lib = _nativeLibrary;
 
   // TODO: move to separate class
   DartUplinkObject downloadInfo(Pointer<UplinkDownload> download) {

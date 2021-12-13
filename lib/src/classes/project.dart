@@ -1,14 +1,21 @@
-import 'dart:ffi';
-
-import 'package:ffi/ffi.dart';
-import 'package:storj_dart/generated/generated_bindings.dart';
-import 'package:storj_dart/src/helpers.dart';
+part of classes;
 
 class DartUplinkProject {
-  // TODO: think about how to expose this so that all internal classes can use it, maybe GetIt? Does it makse more sense than passing it in the constructor?
+  // TODO: Does it makse  sense to pass this in the constructor?
   final NativeLibrary _nativeLib;
-  final Pointer<UplinkProject> _nativeProject;
-  DartUplinkProject(this._nativeProject, this._nativeLib);
+  // This is late because we need to call a c function to get a reference in the constructor
+  late final Pointer<UplinkProject> _nativeProject;
+
+  DartUplinkProject._fromNative(this._nativeProject)
+      : _nativeLib = _nativeLibrary;
+
+  DartUplinkProject.openProject(DartUplinkAccess access)
+      : _nativeLib = _nativeLibrary {
+    var result = _nativeLib.uplink_open_project(access._nativeAccess);
+
+    throwIfError(result.error);
+    _nativeProject = result.project;
+  }
 
   abortUpload() {
     throw UnimplementedError();

@@ -10,7 +10,9 @@ import 'package:storj_dart/src/helpers.dart';
 // TODO: rename
 class DartUplinkObject {
   final Pointer<UplinkObject> _nativeObject;
-  // TODO: don't construct from Struct
+  // This should only ever be constructed from within onther classes in
+  // this library, so taking a Struct is fine.
+  // TODO: convert to private constructor that is only accessible from within library
   DartUplinkObject(this._nativeObject);
 
   String get key => _nativeObject.ref.key.int8PointerToString();

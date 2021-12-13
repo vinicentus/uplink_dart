@@ -10,7 +10,7 @@ import 'package:storj_dart/src/other_classes/object.dart';
 
 part './access.dart';
 part './project.dart';
-part './uplink.dart';
+part './download.dart';
 
 // TODO: maybe move to custom singleton or use  service lcoator such as GetIt?
 var _nativeLibrary = NativeLibrary(DynamicLibrary.open('libuplinkc.so'));

@@ -6,8 +6,9 @@ import 'package:storj_dart/src/helpers.dart';
 /// Dart wrapper for [UplinkObject].
 /// This exists because it has more convenient types than the underlying
 /// [UplinkObject]. This also eliminates the need to use and dereference
-/// pointers.
+/// pointers from outside this library.
 // TODO: rename
+// TODO: preferrably we could find some way to avoid creating these dart classes for small structs
 class DartUplinkObject {
   final Pointer<UplinkObject> _nativeObject;
   // This should only ever be constructed from within onther classes in

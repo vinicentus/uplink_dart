@@ -17,6 +17,7 @@ part 'classes/part_upload.dart';
 part 'classes/permission.dart';
 part 'classes/share_prefix.dart';
 part 'classes/object.dart';
+part 'classes/download_options.dart';
 
 // TODO: maybe move to custom singleton or use  service locator such as GetIt?
 late final bindings.NativeLibrary _nativeLib;

@@ -46,22 +46,21 @@ class DartUplinkProject extends StructWrapper<bindings.UplinkProject>
     throw UnimplementedError();
   }
 
-  // TODO: don't depend on type from bindings (bindings.UplinkDownloadOptions)
   DartUplinkDownload downloadObject(String bucketName, String path,
-      [Pointer<bindings.UplinkDownloadOptions>? downloadOptions]) {
-    // If no downloadOptions are passed, we have to allocate
-    // This is the same as calloc.allocate(sizeOf<UplinkDownloadOptions>());
-    // downloadOptions ??= calloc.call<UplinkDownloadOptions>();
-    downloadOptions ??= nullptr;
+      [final DartUplinkDownloadOptions? downloadOptions]) {
+    // null is allowed here, but it has to be a nullptr in C
+    var nativeDownloadOptions = downloadOptions?._native ?? nullptr;
 
     var bucketNameInt = bucketName.stringToInt8Pointer();
     var pahtInt = path.stringToInt8Pointer();
     var result = _nativeLibrary.uplink_download_object(
-        _native, bucketNameInt, pahtInt, downloadOptions);
+        _native, bucketNameInt, pahtInt, nativeDownloadOptions);
 
     calloc.free(bucketNameInt);
     calloc.free(pahtInt);
-    calloc.free(downloadOptions);
+    // If the user passed downloadOptions, it shuldn't be freed, because they might want to reuse it
+    // If we created it, we free it.
+    if (downloadOptions == null) calloc.free(nativeDownloadOptions);
 
     throwIfError(result.error);
     return DartUplinkDownload._fromNative(result.download);

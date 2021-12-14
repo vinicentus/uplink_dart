@@ -20,11 +20,17 @@ class DartUplinkDownload extends StructWrapper<bindings.UplinkDownload>
 
   /// The original go implementation of this returns the number of bytes read as well as the data.
   /// This version, however, returns only a list of bytes, but you can easily call ".length" on that list.
-  // TODO: make this more similar to the go version, but still return a useful dart type.
+  /// This length of the returned list is guaranteed to be the same length as the number of bytes read.
+  /// When using this function, you need to take care to check the length of he returned list,
+  /// because the number of bytes read and returned might be fewer than requested.
   // TODO: also make a stream version of this somewhere
+  // TODO: check why this sometimes return less data than requested, even though there is more data available
   Uint8List read(int length) {
-    // Allocate a limited length pointer for the returned data
-    var downloadedData = calloc.allocate<Void>(length);
+    // Allocate a limited length pointer for the returned data.
+    // We use malloc here, which doesn't zero out the memory section.
+    // That should not be needed, since we will be writing over most of it,
+    // and discarding any trailing bytes that were not overwritten
+    var downloadedData = malloc.allocate<Void>(length);
 
     var result =
         _nativeLibrary.uplink_download_read(_native, downloadedData, length);
@@ -35,8 +41,9 @@ class DartUplinkDownload extends StructWrapper<bindings.UplinkDownload>
     // The original implementation returns both the partial data and the error in a struct.
     throwIfError(result.error);
 
-    var returnList =
-        Uint8List.fromList(downloadedData.cast<Int8>().asTypedList(length));
+    // Important! Only return the read bytes, truncate list to remove trailing zeroes
+    var returnList = Uint8List.fromList(
+        downloadedData.cast<Uint8>().asTypedList(result.bytes_read));
     calloc.free(downloadedData);
 
     return returnList;

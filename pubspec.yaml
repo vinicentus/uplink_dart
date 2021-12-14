@@ -7,11 +7,8 @@ environment:
   # The generated file requires 'nonfunction-type-aliases' language feature, available from 2.14.0 onwards...
   sdk: '>=2.14.4 <3.0.0'
 
-
-dependencies: 
-  ffigen: ^4.1.2
-
 dev_dependencies:
+  ffigen: ^4.1.2
   lints: ^1.0.0
   test: ^1.16.0
 

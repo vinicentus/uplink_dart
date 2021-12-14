@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:storj_dart/storj_dart.dart';
 
-final accessToken = 'your_access';
-final bucketName = 'bucket-name';
-final filepath = 'path/to/file.txt';
+var accessToken = 'your_access';
+var bucketName = 'bucket-name';
+var filePath = 'path/to/file.txt';
+
+var downloadDestination = 'downloaded.txt';
 
 void main() {
   // This must be called initially, and you need to provide a path to a precompiled
@@ -15,7 +17,7 @@ void main() {
   var access = DartUplinkAccess.parseAccess(accessToken);
   print(access.serialize());
   var project = DartUplinkProject.openProject(access);
-  var download = project.downloadObject(bucketName, filepath);
+  var download = project.downloadObject(bucketName, filePath);
   var size = download.info().system.content_length;
   print(size);
 
@@ -36,23 +38,23 @@ void main() {
 
     // Subtract the number of bytes actualy read, not the requested amount
     remainingBytes -= freshBytes.length;
-    print('read ${freshBytes.length} bytes, (${fileBytes.length}/$size)');
+    print('read ${freshBytes.length} bytes (${fileBytes.length}/$size)');
   }
 
   download.close();
   project.close();
 
   // Write to disk
-  File('downloaded.txt').writeAsBytes(fileBytes.toBytes());
+  File(downloadDestination).writeAsBytes(fileBytes.toBytes());
 
   // Share file (create new access)
   var newAccess = access.share(DartUplinkPermission.readOnlyPermission(),
-      [DartUplinkUplinkSharePrefix(bucketName, filepath)]);
+      [DartUplinkUplinkSharePrefix(bucketName, filePath)]);
   print(newAccess.serialize());
 
   // Get file info using new access
   var newProject = DartUplinkProject.openProject(newAccess);
-  var newDownload = newProject.downloadObject(bucketName, filepath);
+  var newDownload = newProject.downloadObject(bucketName, filePath);
   print(newDownload.info().system.content_length);
   newDownload.close();
   newProject.close();

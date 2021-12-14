@@ -18,13 +18,32 @@ void main() {
   var download = project.downloadObject(bucketName, filepath);
   var size = download.info().system.content_length;
   print(size);
-  var file = download.read(size);
+
+  final buffersize = 1024;
+  var remainingBytes = size;
+  // TODO: check copy param
+  var fileBytes = BytesBuilder();
+
+  // At some point in the future there will be convenience methods created for this,
+  // for example returning a stream of bytes, or a whole file at once.
+  while (remainingBytes > 0) {
+    // We request 1024 bytes every time (meaning we use a 1024 byte long buffer),
+    // but we might not get as many bytes back evey time,
+    // especially not for the very last section of the file,
+    // which is likely to be shorter than 1024 bytes.
+    var freshBytes = download.read(buffersize);
+    fileBytes.add(freshBytes);
+
+    // Subtract the number of bytes actualy read, not the requested amount
+    remainingBytes -= freshBytes.length;
+    print('read ${freshBytes.length} bytes, (${fileBytes.length}/$size)');
+  }
 
   download.close();
   project.close();
 
-  File('downloaded.txt').writeAsBytes(file);
-  print(file.length);
+  // Write to disk
+  File('downloaded.txt').writeAsBytes(fileBytes.toBytes());
 
   // Share file (create new access)
   var newAccess = access.share(DartUplinkPermission.readOnlyPermission(),
@@ -37,4 +56,6 @@ void main() {
   print(newDownload.info().system.content_length);
   newDownload.close();
   newProject.close();
+
+  // TODO: download data and check that downloaded data is the same as uploaded
 }

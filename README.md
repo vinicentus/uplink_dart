@@ -11,8 +11,8 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-# storj.dart
-Dart wrapper for the Uplink (Storj) GO library
+# uplink_dart
+Dart wrapper for the Storj Uplink GO library
 
 This repository currently relies on you to compile a verision of [uplink-c](https://github.com/storj/uplink-c)
 

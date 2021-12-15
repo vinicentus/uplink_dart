@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'dart:typed_data';
 
-import 'package:storj_dart/src/classes_lib.dart';
+import 'package:uplink_dart/src/classes_lib.dart';
 
 // TODO: decide wether it is a good idea to introduce asynchronous code into this library
 extension Download on DartUplinkProject {

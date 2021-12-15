@@ -1,9 +1,9 @@
 import 'dart:io';
 
 // This library contains asynchronous convenience wrappers around the main library
-import 'package:storj_dart/convenience_lib.dart';
+import 'package:uplink_dart/convenience_lib.dart';
 // Main library with an API similar to the go library
-import 'package:storj_dart/storj_dart.dart';
+import 'package:uplink_dart/uplink_dart.dart';
 
 var accessToken = 'your_access';
 var bucketName = 'bucket-name';

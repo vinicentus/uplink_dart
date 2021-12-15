@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:storj_dart/storj_dart.dart';
+import 'package:uplink_dart/uplink_dart.dart';
 
 var accessToken = 'your_access';
 var bucketName = 'bucket-name';

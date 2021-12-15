@@ -4,8 +4,8 @@ import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
-import 'package:storj_dart/generated/generated_bindings.dart' as bindings;
-import 'package:storj_dart/src/helpers.dart';
+import 'package:uplink_dart/generated/generated_bindings.dart' as bindings;
+import 'package:uplink_dart/src/helpers.dart';
 
 part 'struct_wrapper.dart'; // Abstract class needed for essentialy all other classes
 part 'classes/access.dart';

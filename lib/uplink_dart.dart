@@ -2,7 +2,7 @@
 /// Uses uplink-c (c bindings fro the go package) under the hood.
 ///
 /// More dartdocs go here.
-library storj_dart;
+library uplink_dart;
 
 export 'src/classes_lib.dart';
 

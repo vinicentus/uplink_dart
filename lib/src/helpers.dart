@@ -1,7 +1,7 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
-import 'package:storj_dart/generated/generated_bindings.dart';
+import 'package:uplink_dart/generated/generated_bindings.dart';
 
 extension StringHelpers on String {
   Pointer<Int8> stringToInt8Pointer() => toNativeUtf8().cast<Int8>();
@@ -36,6 +36,7 @@ extension BoolHelpers on bool {
   convertToInt() => this ? 1 : 0;
 }
 
+// TODO: uplink_free_error()
 void throwIfError(Pointer<UplinkError> error) {
   if (error.isNullPtr()) {
     // This is a nullptr, meaning there wasn't any error

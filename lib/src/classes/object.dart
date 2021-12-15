@@ -15,7 +15,7 @@ class DartUplinkObject extends StructWrapper<bindings.UplinkObject> {
 
   String get key => _native.ref.key.int8PointerToString();
   bool get isPrefix => _native.ref.is_prefix.convertToBool();
-  // TODO: don't show any types from bindings publically
+  // TODO: don't show any types from bindings publicly
   bindings.UplinkSystemMetadata get system => _native.ref.system;
   bindings.UplinkCustomMetadata get custom => _native.ref.custom;
 }

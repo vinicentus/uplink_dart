@@ -1,0 +1,25 @@
+name: storj_dart
+description: Dart wrapper for the (Storj) Uplink GO library.
+version: 0.1.0
+# homepage: https://www.example.com
+
+environment:
+  # The generated file requires 'nonfunction-type-aliases' language feature, available from 2.14.0 onwards...
+  sdk: '>=2.14.4 <3.0.0'
+
+dev_dependencies:
+  ffigen: ^4.1.2
+  lints: ^1.0.0
+  test: ^1.16.0
+
+ffigen:
+  output: 'generated_bindings.dart'
+  headers:
+    entry-points:
+      - 'libuplinkc.h'
+      - 'uplink_definitions.h'
+      - 'uplink_compat.h'
+    include-directives:
+      - '**libuplinkc.h'
+      - '**uplink_definitions.h'
+      - '**uplink_compat.h'

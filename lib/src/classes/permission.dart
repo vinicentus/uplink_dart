@@ -3,6 +3,7 @@ part of classes;
 /// This class currently doesn't expose any setters, so new instances are used instead of changing values.
 /// TODO: expose setters for values.
 // TODO: Add tests (especially for constructors because they aren't defined in uplink-c but only in go), since this is a critical part of the library
+// TODO: check timezone, but I believe that this should take local time, and the library then converts to UTC
 class DartUplinkPermission extends StructWrapper<bindings.UplinkPermission> {
   @override
   DartUplinkPermission._fromNative(Pointer<bindings.UplinkPermission> _native)
@@ -16,12 +17,12 @@ class DartUplinkPermission extends StructWrapper<bindings.UplinkPermission> {
   /// Return null when not used, the original library returns 0;
   DateTime? get notBefore => _native.ref.not_before == 0
       ? null
-      : DateTime.fromMillisecondsSinceEpoch(_native.ref.not_before * 1000);
+      : _native.ref.not_before.convertToDateTime();
 
   /// Return null when not used, the original library returns 0;
   DateTime? get notAfter => _native.ref.not_after == 0
       ? null
-      : DateTime.fromMillisecondsSinceEpoch(_native.ref.not_after * 1000);
+      : _native.ref.not_after.convertToDateTime();
 
   DartUplinkPermission({
     bool allowDownload = false,

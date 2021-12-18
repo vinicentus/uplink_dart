@@ -42,8 +42,18 @@ class DartUplinkProject extends StructWrapper<bindings.UplinkProject>
     throw UnimplementedError();
   }
 
-  deleteObject() {
-    throw UnimplementedError();
+  DartUplinkObject deleteObject(String bucket, String key) {
+    var bucketPointer = bucket.stringToInt8Pointer();
+    var keyPointer = key.stringToInt8Pointer();
+
+    var result =
+        _nativeLibrary.uplink_delete_object(_native, bucketPointer, keyPointer);
+
+    calloc.free(bucketPointer);
+    calloc.free(keyPointer);
+
+    throwIfError(result.error);
+    return DartUplinkObject._fromNative(result.object);
   }
 
   DartUplinkDownload downloadObject(String bucketName, String path,

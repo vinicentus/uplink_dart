@@ -30,6 +30,10 @@ extension IntHelpers on int {
             'Can\'t convert value to bool, unsupported value: ', this);
     }
   }
+
+  /// Converts a Unix timestamp formatted in seconds since epoch to [DateTime].
+  DateTime convertToDateTime() =>
+      DateTime.fromMillisecondsSinceEpoch(this * 1000);
 }
 
 extension BoolHelpers on bool {
